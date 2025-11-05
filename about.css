@@ -1,0 +1,34 @@
+.mainnavbar {
+  background-color: #007BFF; 
+  color: white;
+}
+
+.happy-monkey-font {
+  font-family: "Happy Monkey", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.header-bg {
+  background-color: #0056b3; 
+}
+
+.footer-bg {
+  background-color: #0056b3; 
+}
+
+.joinnowbutton {
+  background-color: #007BFF !important; 
+  border: none !important;
+}
+
+.dropdownbutton {
+  background-color: #0056b3 !important; 
+  border: 1px solid #004494 !important;
+}
+
+@media only screen and (min-width: 992px) {
+  .dropdownbutton {
+    display: none !important;
+  }
+}

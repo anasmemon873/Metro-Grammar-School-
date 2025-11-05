@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Home - Metro Grammar School</title>
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <meta content="Metro Grammar School" name="keywords" />
+    <meta content="Metro Grammar School" name="description" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Happy+Monkey&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/home.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link rel="shortcut icon" href="img/citygrammarlogo.png" type="image/x-icon" />
+
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+      .mainnavbar {
+        background-color: #007BFF !important;
+        color: white;
+      }
+      .header-bg {
+        background-color: #0056b3 !important;
+      }
+      .footer-bg {
+        background-color: #0056b3 !important;
+      }
+      .joinnowbutton {
+        background-color: #007BFF !important;
+        border: none !important;
+      }
+      .dropdownbutton {
+        background-color: #0056b3 !important;
+        border: 1px solid #004494 !important;
+      }
+      @media only screen and (min-width: 992px) {
+        .dropdownbutton {
+          display: none !important;
+        }
+      }
+      a.btn-primary {
+        background-color: #007BFF !important;
+        border: none !important;
+      }
+      .text-primary {
+        color: #007BFF !important;
+      }
+      a.text-primary.font-weight-bold.text-warning {
+        color: #cce5ff !important;
+      }
+      #main-content {
+        display: none;
+      }
+      #login-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #cce5ff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      }
+      .login-form {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        width: 400px;
+        text-align: center;
+      }
+      .login-form h2 {
+        color: #007BFF;
+      }
+      .login-form input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #007BFF;
+        border-radius: 5px;
+      }
+      .login-form button {
+        width: 100%;
+        padding: 10px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px 0;
+      }
+      .login-form button:hover {
+        background-color: #0056b3;
+      }
+      .toggle-link {
+        color: #007BFF;
+        cursor: pointer;
+      }
+      #logout-btn {
+        background-color: #007BFF !important;
+        border: none !important;
+        color: white !important;
+      }
+      #logout-btn:hover {
+        background-color: #0056b3 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="login-overlay">
+      <div class="login-form" id="login-form">
+        <h2>Login - Metro Grammar School</h2>
+        <input id="login-email" placeholder="Enter email" type="text" />
+        <input id="login-password" placeholder="Enter password" type="password" />
+        <button onclick="login()">Login</button>
+        <button onclick="LoginwithGoogle()" style="background-color: #dc3545;">Login with Google</button>
+        <p class="mt-2"><span class="toggle-link" onclick="showSignup()">Don't have an account? Sign Up</span></p>
+      </div>
+      <div class="login-form" id="signup-form" style="display: none;">
+        <h2>Sign Up - Metro Grammar School</h2>
+        <input id="signup-name" placeholder="Enter name" type="text" />
+        <input id="signup-email" placeholder="Enter email" type="text" />
+        <input id="signup-password" placeholder="Enter password" type="password" />
+        <button onclick="signup()">Sign Up</button>
+        <p class="mt-2"><span class="toggle-link" onclick="showLogin()">Already have an account? Login</span></p>
+      </div>
+    </div>
+
+    <div id="main-content">
+      <div class="container-fluid w-sm-100 position-relative shadow mainnavbar">
+        <nav class="navbar navbar-expand-lg navbar-light py-3 py-lg-0 px-0 px-lg-5 mainnavbar">
+          <img src="img/citygrammarlogo.png" alt="" width="68" />
+          <a href="" class="navbar-brand font-weight-bold fs-1 text-light">
+            <i class="flaticon-043-teddy-bear"></i>
+            <span class="text-light happy-monkey-font ms-3">Metro Grammar School</span>
+          </a>
+          <div>
+            <button type="button" class="btn dropdownbutton" type="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="navbar-toggler-icon"></span></button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="index.html">Home</a></li>
+              <li><a class="dropdown-item" href="about.html">About</a></li>
+              <li><a class="dropdown-item" href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+          <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+            <div class="navbar-nav font-weight-bold mx-auto py-0 fs-3">
+              <a href="index.html" class="nav-link text-light active pe-3">Home</a>
+              <a href="about.html" class="nav-link text-light pe-3">About</a>
+              <a href="contact.html" class="nav-link text-light pe-3">Contact</a>
+            </div>
+          </div>
+          <a href="admission.html" class="btn btn-primary px-4 border-0 rounded-pill fs-4">Get Admission</a>
+          <button id="logout-btn" class="btn btn-primary ms-2" onclick="logout()">Logout</button>
+        </nav>
+      </div>
+
+      <div class="container-fluid header-bg px-0 px-md-5 mb-5 pb-3 pt-2">
+        <div class="row align-items-center px-3 w-100">
+          <div class="col-lg-6 text-center text-lg-left">
+            <h4 class="text-white mb-4 mt-5 mt-lg-0 happy-monkey-font fs-3">Metro Grammar School</h4>
+            <h1 class="display-3 font-weight-bold text-white">Educating Minds, Shaping Futures</h1>
+            <p class="text-white mb-4 fs-5">
+              Our commitment to excellence prepares students for success. Join us in building a brighter future through quality education.
+            </p>
+            <a href="about.html" class="btn btn-secondary mt-1 py-3 px-5">Read More</a>
+          </div>
+          <div class="col-lg-6 text-center text-lg-right">
+            <img class="img-fluid mt-1" src="img/header.png" alt="" />
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid pt-5">
+        <div class="container pb-3">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 pb-1">
+              <div class="d-flex bg-light shadow-sm border-top rounded mb-4" style="padding: 30px">
+                <div class="pl-4">
+                  <h4>Play Ground</h4>
+                  <p class="m-0">Our playground offers a safe and enjoyable environment for students to play and enjoy.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 pb-1">
+              <div class="d-flex bg-light shadow-sm border-top rounded mb-4" style="padding: 30px">
+                <div class="pl-4">
+                  <h4>Arts and Crafts</h4>
+                  <p class="m-0">Our school has a fun arts and crafts room where students can be creative.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 pb-1">
+              <div class="d-flex bg-light shadow-sm border-top rounded mb-4" style="padding: 30px">
+                <div class="pl-4">
+                  <h4>Clean Environment</h4>
+                  <p class="m-0">At our school, we keep things tidy and clean for everyone's comfort. We make sure our environment is healthy and enjoyable for learning</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 pb-1">
+              <div class="d-flex bg-light shadow-sm border-top rounded mb-4">
+                <i class="flaticon-047-backpack h1 font-weight-normal text-primary mb-3"></i>
+                <div class="pl-4">
+                  <h4>Sports & Other Activities</h4>
+                  <p class="m-0">Our school offers a variety of sports and activities for students to enjoy.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid pt-5">
+        <div class="container">
+          <div class="text-center pb-2">
+            <p class="section-title px-5"><span class="px-2">Popular Classes</span></p>
+            <h1 class="mb-4">Classes for Your Kids</h1>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 mb-5">
+              <div class="card border-0 bg-light shadow-sm pb-2">
+                <img class="card-img-top mb-2" src="img/class-1.jpg" alt="" />
+                <div class="card-body text-center">
+                  <h4 class="card-title">Sports Class</h4>
+                  <p class="card-text">
+                    In our sports class, students will learn to play badminton, cricket and other sports. Doing sports will be beneficial for students' mental and physical health
+                  </p>
+                </div>
+                <div class="card-footer bg-transparent py-4 px-5">
+                  <div class="row border-bottom">
+                    <div class="col-6 py-1 text-right border-right"><strong>Age of Kids</strong></div>
+                    <div class="col-6 py-1">4 - 9 Years</div>
+                  </div>
+                  <div class="row border-bottom">
+                    <div class="col-6 py-1 text-right border-right"><strong>Total Seats</strong></div>
+                    <div class="col-6 py-1">40 Seats</div>
+                  </div>
+                  <div class="row border-bottom">
+                    <div class="col-6 py-1 text-right border-right"><strong>Class Time</strong></div>
+                    <div class="col-6 py-1">08:00 am - 09:00 am</div>
+                  </div>
+                </div>
+                <a href="admission.html" class="btn btn-primary px-4 mx-auto mb-4 joinnowbutton">Join Now</a>
+              </div>
+            </div>
+            <div class="col-lg-4 mb-5">
+              <div class="card border-0 bg-light shadow-sm pb-2">
+                <img class="card-img-top mb-2" src="img/class-2.jpg" alt="" />
+                <div class="card-body text-center">
+                  <h4 class="card-title">Language Learning</h4>
+                  <p class="card-text">
+                    In our language classes, students learn to speak fluently in their chosen language. With fun activities and helpful teachers, everyone can become a confident communicator.
+                  </p>
+                </div>
+                <div class="card-footer bg-transparent py-4 px-5">
+                  <div class="row border-bottom">
+                    <div class="col-6 py-1 text-right border-right"><strong>Age of Kids</strong></div>
+                    <div class="col-6 py-1">4 - 9 Years</div>
+                  </div>
+                  <div class="row border-bottom">
+                    <div class="col-6 py-1 text-right border-right"><strong>Total Seats</strong></div>
+                    <div class="col-6 py-1">40 Seats</div>
+                  </div>
+                  <div class="row border-bottom">
+                    <div class="col-6 py-1 text-right border-right"><strong>Class Time</strong></div>
+                    <div class="col-6 py-1">09:15 am - 10:15 am</div>
+                  </div>
+                </div>
+                <a href="admission.html" class="btn btn-primary px-4 mx-auto mb-4 joinnowbutton">Join Now</a>
+              </div>
+            </div>
+            <div class="col-lg-4 mb-5">
+              <div class="card border-0 bg-light shadow-sm pb-2">
+                <img class="card-img-top mb-2" src="img/class-3.jpg" alt="" />
+                <div class="card-body text-center">
+                  <h4 class="card-title">Basic Computer Science</h4>
+                  <p class="card-text">
+                    In our computer science class, students learn the basics of computers and coding in a fun and interactive way. With hands-on projects and supportive instructors, students build essential skills for the digital age.
+                  </p>
+                </div>
+                <div class="card-footer bg-transparent py-4 px-5">
+                  <div class="row border-bottom">
+                    <div class="col-6 py-1 text-right border-right"><strong>Age of Kids</strong></div>
+                    <div class="col-6 py-1">4 - 9 Years</div>
+                  </div>
+                  <div class="row border-bottom">
+                    <div class="col-6 py-1 text-right border-right"><strong>Total Seats</strong></div>
+                    <div class="col-6 py-1">40 Seats</div>
+                  </div>
+                  <div class="row border-bottom">
+                    <div class="col-6 py-1 text-right border-right"><strong>Class Time</strong></div>
+                    <div class="col-6 py-1">10:25 am - 11:15 am</div>
+                  </div>
+                </div>
+                <a href="admission.html" class="btn btn-primary px-4 mx-auto mb-4 joinnowbutton">Join Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container-fluid text-white mt-5 py-5 px-sm-3 px-md-5 footer-bg">
+        <div class="container-fluid">
+          <p class="m-0 text-center text-white">
+            &copy; Metro Grammar School. All Rights Reserved. Designed with care.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyAkGzCat4XgoCEkbF41UYxNqAFdjG3Jyfk",
+        authDomain: "metro-grammar-school.firebaseapp.com",
+        projectId: "metro-grammar-school",
+        storageBucket: "metro-grammar-school.firebasestorage.app",
+        messagingSenderId: "150465529103",
+        appId: "1:150465529103:web:8b63f2938cf3066d93ea7a",
+        measurementId: "G-4G62G55QQW"
+      };
+      firebase.initializeApp(firebaseConfig);
+      var auth = firebase.auth();
+      var database = firebase.database();
+
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          document.getElementById('main-content').style.display = 'block';
+          document.getElementById('login-overlay').style.display = 'none';
+          document.getElementById('logout-btn').style.display = 'inline-block';
+        } else {
+          document.getElementById('main-content').style.display = 'none';
+          document.getElementById('login-overlay').style.display = 'flex';
+          document.getElementById('logout-btn').style.display = 'none';
+        }
+      });
+
+            function signup() {
+        var name = document.getElementById('signup-name').value;
+        var email = document.getElementById('signup-email').value;
+        var password = document.getElementById('signup-password').value;
+        auth.createUserWithEmailAndPassword(email, password)
+          .then(function(response) {
+            response.user.sendEmailVerification();
+            Swal.fire({
+              title: "SignUp Successfully!",
+              icon: "success",
+            });
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            document.getElementById('logout-btn').style.display = 'inline-block';
+          })
+          .catch(function(error) {
+            Swal.fire({
+              title: "Error!",
+              text: error.message,
+              icon: "error",
+            });
+          });
+      }
+
+      function login() {
+        var email = document.getElementById('login-email').value;
+        var password = document.getElementById('login-password').value;
+        auth.signInWithEmailAndPassword(email, password)
+          .then(function(response) {
+            Swal.fire({
+              title: "Login Successfully!",
+              icon: "success",
+            });
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            document.getElementById('logout-btn').style.display = 'inline-block';
+          })
+          .catch(function(error) {
+            Swal.fire({
+              title: "Warning!",
+              text: error.message,
+              icon: "error",
+            });
+          });
+      }
+
+      function LoginwithGoogle() {
+        var provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider)
+          .then(function(response) {
+            Swal.fire({
+              title: "Login Successfully with Google!",
+              icon: "success",
+            });
+            document.getElementById('login-overlay').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            document.getElementById('logout-btn').style.display = 'inline-block';
+          })
+          .catch(function(error) {
+            Swal.fire({
+              title: "Error!",
+              text: error.message,
+              icon: "error",
+            });
+          });
+      }
+
+      function logout() {
+        auth.signOut()
+          .then(function() {
+            Swal.fire({
+              title: "Logged Out!",
+              icon: "info",
+            });
+            document.getElementById('main-content').style.display = 'none';
+            document.getElementById('login-overlay').style.display = 'flex';
+            document.getElementById('logout-btn').style.display = 'none';
+          });
+      }
+
+      function showSignup() {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('signup-form').style.display = 'block';
+      }
+
+      function showLogin() {
+        document.getElementById('signup-form').style.display = 'none';
+        document.getElementById('login-form').style.display = 'block';
+      }
+    </script>
+
+    <script src="js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>

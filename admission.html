@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admission Form - Metro Grammar School</title>
+    <link rel="stylesheet" href="css/admission.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Happy+Monkey&display=swap" rel="stylesheet" />
+    <link rel="shortcut icon" href="img/citygrammarlogo.png" type="image/x-icon" />
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.3/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+      .mainnavbar {
+        background-color: #007BFF !important;
+        color: white;
+      }
+      .happy-monkey-font {
+        font-family: "Happy Monkey", system-ui;
+        font-weight: 400;
+        font-style: normal;
+      }
+      .footer-bg {
+        background-color: #0056b3 !important;
+      }
+      .joinnowbutton {
+        background-color: #007BFF !important;
+        border: none !important;
+      }
+      .dropdownbutton {
+        background-color: #0056b3 !important;
+        border: 1px solid #004494 !important;
+      }
+      @media only screen and (min-width: 992px) {
+        .dropdownbutton {
+          display: none !important;
+        }
+      }
+      .btnsubmit {
+        background-color: #0056b3 !important;
+        color: white !important;
+      }
+      .lds-ring div {
+        color: #007BFF !important;
+      }
+      a.text-primary.font-weight-bold.text-warning {
+        color: #cce5ff !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid w-sm-100 position-relative shadow mainnavbar">
+      <nav class="navbar navbar-expand-lg navbar-light py-3 py-lg-0 px-0 px-lg-5 mainnavbar">
+        <img src="img/citygrammarlogo.png" alt="" width="68" />
+        <a href="" class="navbar-brand font-weight-bold fs-1 text-secondary">
+          <i class="flaticon-043-teddy-bear"></i>
+          <span class="text-light happy-monkey-font ms-3">Metro Grammar School</span>
+        </a>
+        <div>
+          <button type="button" class="btn dropdownbutton" type="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="navbar-toggler-icon"></span></button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="index.html">Home</a></li>
+            <li><a class="dropdown-item" href="about.html">About</a></li>
+            <li><a class="dropdown-item" href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+          <div class="navbar-nav font-weight-bold mx-auto py-0 fs-3">
+            <a href="index.html" class="nav-link text-light active pe-3">Home</a>
+            <a href="about.html" class="nav-link text-light pe-3">About</a>
+            <a href="contact.html" class="nav-link text-light pe-3">Contact</a>
+          </div>
+        </div>
+        <a href="admission.html" class="btn btn-primary px-4 border-0 rounded-pill fs-4">Get Admission</a>
+      </nav>
+    </div>
+
+    <main id="main" class="container mt-4">
+      <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-xs-12 col-lg-offset-3 col-lg-8">
+          <div class="m-b-md text-center">
+            <h1 id="title">Admission Form</h1>
+            <p id="description" class="description text-center">Note: Enter all of the fields and correctly</p>
+          </div>
+          <form id="admission-form" name="admissionForm" method="get" onsubmit="return!1">
+            <fieldset>
+              <label for="name" id="name-label">Full Name <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required /></label>
+            </fieldset>
+            <fieldset>
+              <label for="guardianname" id="name-label">Child's Guardian Full Name <input type="text" id="guardianname" name="guardianname" placeholder="Enter child's guardian full name" required /></label>
+            </fieldset>
+            <fieldset>
+              <label for="email" id="email-label">Email <input type="email" id="email" name="email" placeholder="Enter your email" required /></label>
+            </fieldset>
+            <fieldset>
+              <label for="guardianphonenumber" id="number-label">Guardian's Phone Number <input class="w-100" type="number" id="guardianphonenumber" name="guardianphonenumber" placeholder="Enter guardian's phone number" required /></label>
+            </fieldset>
+            <fieldset>
+              <label for="number" id="number-label">Child's Age <input class="w-50" type="number" id="childage" name="childage" placeholder="Enter child's age" required /></label>
+            </fieldset>
+            <fieldset>
+              <label for="dateofbirth" id="number-label">Date Of Birth <input class="w-50" type="text" id="dateofbirth" name="dateofbirth" placeholder="Date-Month-Year" required /></label>
+            </fieldset>
+            <fieldset>
+              <label for="placeofbirth" id="number-label">Place Of Birth <input class="w-75" type="text" id="placeofbirth" name="placeofbirth" placeholder="Enter Your Birth Place" required /></label>
+            </fieldset>
+            <fieldset>
+              <label for="religion">Religion
+                <select id="religion" name="religion" class="m-t-xs" required>
+                  <option class="d-none">Select your Religion</option>
+                  <option value="Islam">Islam</option>
+                  <option value="Hindu">Hindu</option>
+                  <option value="Buddhist">Buddhist</option>
+                  <option value="Christian">Christian</option>
+                  <option value="other">Other</option>
+                </select>
+              </label>
+            </fieldset>
+            <fieldset>
+              <label for="nationality" id="name-label">Nationality <input type="text" id="nationality" name="nationality" placeholder="Enter child's nationality" required /></label>
+            </fieldset>
+            <fieldset>
+              <label for="gender">Gender
+                <select id="gender" name="gender" class="m-t-xs">
+                  <option class="d-none">Select Child's Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </label>
+            </fieldset>
+            <fieldset>
+              <label for="bFormNo" id="number-label">B-Form Number <input class="w-100" type="number" id="bFormNo" name="bFormNo" placeholder="Enter child's B-Form Number" required /></label>
+            </fieldset>
+            <input id="submitBtn" type="button" name="submitBtn" class="btn btnsubmit border-0 mt-5" value="Submit-Form" onclick="addDataInDatabase()" />
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <div class="swal2-container swal2-center swal2-backdrop-show" id="loadingBar" style="display: none; overflow-y: auto">
+      <div class="swal2-popup swal2-modal swal2-show d-flex justify-content-center" style="background-color: transparent">
+        <div class="lds-ring">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyAkGzCat4XgoCEkbF41UYxNqAFdjG3Jyfk",
+        authDomain: "metro-grammar-school.firebaseapp.com",
+        projectId: "metro-grammar-school",
+        storageBucket: "metro-grammar-school.firebasestorage.app",
+        messagingSenderId: "150465529103",
+        appId: "1:150465529103:web:8b63f2938cf3066d93ea7a",
+        measurementId: "G-4G62G55QQW"
+      };
+      firebase.initializeApp(firebaseConfig);
+      var database = firebase.database();
+
+      function addDataInDatabase() {
+        var fullname = document.getElementById('fullname').value;
+        var guardianname = document.getElementById('guardianname').value;
+        var email = document.getElementById('email').value;
+        var guardianphonenumber = document.getElementById('guardianphonenumber').value;
+        var childage = document.getElementById('childage').value;
+        var dateofbirth = document.getElementById('dateofbirth').value;
+        var placeofbirth = document.getElementById('placeofbirth').value;
+        var religion = document.getElementById('religion').value;
+        var nationality = document.getElementById('nationality').value;
+        var gender = document.getElementById('gender').value;
+        var bFormNo = document.getElementById('bFormNo').value;
+
+        if (fullname && guardianname && email && guardianphonenumber && childage && dateofbirth && placeofbirth && religion && nationality && gender && bFormNo) {
+          document.getElementById('loadingBar').style.display = 'flex';
+          var data = {
+            fullname: fullname,
+            guardianname: guardianname,
+            email: email,
+            guardianphonenumber: guardianphonenumber,
+            childage: childage,
+            dateofbirth: dateofbirth,
+            placeofbirth: placeofbirth,
+            religion: religion,
+            nationality: nationality,
+            gender: gender,
+            bFormNo: bFormNo
+          };
+          database.ref('StudentData').push(data).then(function() {
+            document.getElementById('loadingBar').style.display = 'none';
+            Swal.fire({
+              title: "Form Submitted Successfully!",
+              icon: "success",
+            });
+            document.getElementById('admission-form').reset();
+          }).catch(function(error) {
+            document.getElementById('loadingBar').style.display = 'none';
+            Swal.fire({
+              title: "Error!",
+              text: error.message,
+              icon: "error",
+            });
+          });
+        } else {
+          Swal.fire({
+            title: "Error!",
+            text: "Please fill all fields.",
+            icon: "error",
+          });
+        }
+      }
+    </script>
+
+    <script src="https://momentjs.com/downloads/moment.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>

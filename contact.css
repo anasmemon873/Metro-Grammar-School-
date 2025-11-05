@@ -1,0 +1,40 @@
+.mainnavbar {
+  background-color: #007BFF; 
+  color: white;
+}
+
+.header-bg {
+  background-color: #0056b3; 
+}
+
+.happy-monkey-font {
+  font-family: "Happy Monkey", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.footer-bg {
+  background-color: #0056b3; 
+}
+
+i {
+  width: 45px;
+  height: 45px;
+  background-color: #007BFF; 
+}
+
+.sendmessagebtn {
+  background-color: #007BFF !important; 
+  border: none !important;
+}
+
+.dropdownbutton {
+  background-color: #0056b3 !important; 
+  border: 1px solid #004494 !important;
+}
+
+@media only screen and (min-width: 992px) {
+  .dropdownbutton {
+    display: none !important;
+  }
+}

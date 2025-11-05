@@ -1,0 +1,1 @@
+function prevSchoolImage(e,n){document.getElementById(n).src=e}function nextSchoolImage(e,n){document.getElementById(n).src=e}
